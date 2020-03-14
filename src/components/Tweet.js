@@ -12,6 +12,12 @@ class Tweet extends Component {
         // Todo: Redirect to parent tweet.
     }
 
+    handleLike = (e) => {
+        e.preventDefault()
+
+        // todo: handleLink
+    }
+
     render() {
         const { tweet } = this.props
 
@@ -20,28 +26,40 @@ class Tweet extends Component {
         }
 
         const {
-            name, avater, timestamp, text, hasLiked, likes, replies, id, parent
+            name, avatar, timestamp, text, hasLiked, likes, replies, parent
         } = tweet
 
         return (
             <div className='tweet'>
                 <img
-                    src={avater}
+                    src={avatar}
                     alt={`Avater of ${name}`}
-                    className='avater'
+                    className='avatar'
                 />
                 <div className='tweet-info'>
-                    <span>{name}</span>
-                    <div>{formatDate(timestamp)}</div>
-                    {parent && (
-                        <button className='replying-to' onClick={(e) => this.toParent(e, parent.id)}>
-                            Replying to @{parent.author}
+                    <div>
+                        <span>{name}</span>
+                        <div>{formatDate(timestamp)}</div>
+                        {parent && (
+                            <button className='replying-to' onClick={(e) => this.toParent(e, parent.id)}>
+                                Replying to @{parent.author}
+                            </button>
+                        )}
+                        <p>{text}</p>
+                    </div>
+
+                    <div className='tweet-icons'>
+                        <TiArrowBackOutline className='tweet-icon' />
+                        <span>{replies !== 0 && replies}</span>
+                        <button className='heart-button' onClick={this.handleLike}>
+                            {hasLiked === true 
+                                ? <TiHeartFullOutline color='#e0245e' className='tweet-icon'/>
+                                : <TiHeartOutline className='tweet-icon'/>
+                            }
                         </button>
-                    )}
-                    <p>{text}</p>
+                        <span>{likes !== 0 && likes}</span>
+                    </div>
                 </div>
-
-
             </div>
         )
     }
